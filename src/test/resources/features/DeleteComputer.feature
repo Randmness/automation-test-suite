@@ -2,7 +2,6 @@
 Feature: Deleting computer
 
   Scenario: Delete existing computer
-    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     And Computer entry already exists
       | computerName  | introduced  | discontinued  | company |

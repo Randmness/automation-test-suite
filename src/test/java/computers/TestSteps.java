@@ -46,6 +46,7 @@ public class TestSteps {
 
     @After
     public void tearDown(Scenario scenario) {
+        //attemptCleanup of entries
         if (driver!=null) {
             driver.close();
             driver.quit();
@@ -64,6 +65,31 @@ public class TestSteps {
     @Given("Navigate to page {string}")
     public void navigateToPage(String page) {
         driver.navigate().to(page);
+    }
+
+    @Then("All pages going forward will show at most {int} entries")
+    public void allPagesGoingForwardResultTablesShowAtMost(int expectedCount) {
+        allPagesInDirectionResultTablesShowAtMost(expectedCount, Button.NEXT);
+    }
+
+    @Then("All pages going back will show at most {int} entries.")
+    public void allPagesGoingBackResultTablesShowAtMost(int expectedCount) {
+        allPagesInDirectionResultTablesShowAtMost(expectedCount, Button.PREVIOUS);
+    }
+
+    private void allPagesInDirectionResultTablesShowAtMost(int expectedCount, Button direction) {
+        resultsTableShowsAtMost(expectedCount);
+        boolean isPresent = driver.findElements(direction.getMatch()).size() > 0;
+        while (isPresent) {
+            driver.findElement(direction.getMatch()).click();
+            resultsTableShowsAtMost(expectedCount);
+            isPresent = driver.findElements(direction.getMatch()).size() > 0;
+        }
+    }
+
+    private void resultsTableShowsAtMost(int expectedCount) {
+        assertThat("Expected at most " + expectedCount + " entries",
+                expectedCount >= driver.findElements(By.xpath(Constants.RESULT_ROW_XPATH)).size());
     }
 
     @Given("Computer entry already exists")

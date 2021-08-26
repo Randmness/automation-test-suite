@@ -2,7 +2,6 @@
 Feature: Updating existing company
 
   Scenario: Successfully updating entry
-    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     And Computer entry already exists
       | computerName  | introduced  | discontinued  | company |
@@ -18,7 +17,6 @@ Feature: Updating existing company
     And Message will appear "Done! Computer featureTest_UPDATE2 has been updated".
 
   Scenario: Canceling an attempt to update entry
-    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     And Computer entry already exists
       | computerName  | introduced  | discontinued  | company |

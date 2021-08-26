@@ -2,7 +2,6 @@
 Feature: Creating computer entries
 
   Scenario: Successfully creating entry
-    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     When User clicks the "Add a new computer" button
     And Computer entry fields are entered
@@ -13,7 +12,6 @@ Feature: Creating computer entries
     And Message will appear "Done! Computer featureTest_CREATE has been created".
 
   Scenario: Attempt to create company fails for invalid data
-    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     When User clicks the "Add a new computer" button
     And Computer entry fields are entered

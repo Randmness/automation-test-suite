@@ -5,8 +5,12 @@ Feature: Retrieving all and individual entries
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     Then Application shows current entries.
 
+  Scenario: Check pagination of current entries
+    Given Navigate to page "http://computer-database.herokuapp.com/computers"
+    Then All pages going forward will show at most 10 entries
+    And All pages going back will show at most 10 entries.
+
   Scenario: Retrieve a previously entered entry
-    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
     And Computer entry already exists
       | computerName  | introduced  | discontinued  | company |
