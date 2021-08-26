@@ -46,7 +46,7 @@ public class TestSteps {
 
     @After
     public void tearDown(Scenario scenario) {
-        //attemptCleanup of entries
+        //TODO attempt cleanup of entries
         if (driver!=null) {
             driver.close();
             driver.quit();
@@ -139,10 +139,10 @@ public class TestSteps {
         driver.findElement(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).click();
     }
 
-    @Then("Application shows current entries.")
-    public void applicationShowsCurrentEntries() {
+    @Then("Application shows {string}")
+    public void applicationShowsCurrentEntries(String message) {
         assertThat(driver.findElement(By.xpath(Constants.PAGE_HEADER_XPATH)).getText(),
-                endsWith(" computers found"));
+                endsWith(message));
     }
 
     @Then("User will be taken to the root page")

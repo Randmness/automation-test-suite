@@ -3,7 +3,7 @@ Feature: Retrieving all and individual entries
 
   Scenario: Retrieve all entries from database
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
-    Then Application shows current entries.
+    Then Application shows "computers found"
 
   Scenario: Check pagination of current entries
     Given Navigate to page "http://computer-database.herokuapp.com/computers"
@@ -20,3 +20,9 @@ Feature: Retrieving all and individual entries
     Then Results table should show matching computer entry.
       | computerName  | introduced  | discontinued  | company |
       | featureTest_READ   | 01 Jan 2001  | 02 Feb 2002    | Canon   |
+
+  Scenario: Attempt to retrieve nonexistent entry
+    Given Navigate to page "http://computer-database.herokuapp.com/computers"
+    When User enters filter criteria "John Snow's Pokedex"
+    And User clicks the "Filter by name" button
+    Then Application shows "No computers found"
