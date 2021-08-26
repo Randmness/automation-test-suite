@@ -1,9 +1,11 @@
 package computers;
 
 import computers.support.Computer;
+import computers.support.Constants;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -42,7 +44,7 @@ public class TestSteps {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown(Scenario scenario) {
         if (driver!=null) {
             driver.close();
             driver.quit();
@@ -66,7 +68,7 @@ public class TestSteps {
     @Given("Computer entry already exists")
     public void computerEntryAlreadyExists(List<Computer> computers) throws Exception {
         for (Computer computer: computers) {
-            navigateToPage("http://computer-database.herokuapp.com/computers/new");
+            navigateToPage(Constants.NEW_COMPUTER_URL);
             computerEntryFieldsAreEntered(computer);
             userClicksButton("Save this computer");
         }
@@ -78,10 +80,10 @@ public class TestSteps {
     }
 
     private void computerEntryFieldsAreEntered(Computer computer) {
-        setTextFields("name", computer.getComputerName());
-        setTextFields("introduced", computer.getIntroduced());
-        setTextFields("discontinued", computer.getDiscontinuedDate());
-        Select select = new Select(driver.findElement(By.xpath("/html/body/section/form/fieldset/div[4]/div/select")));
+        setTextFields(Constants.COMPUTER_NAME_FIELD_ID, computer.getComputerName());
+        setTextFields(Constants.INTRODUCED_NAME_FIELD_ID, computer.getIntroduced());
+        setTextFields(Constants.DISCONTINUED_NAME_FIELD_ID, computer.getDiscontinuedDate());
+        Select select = new Select(driver.findElement(By.xpath(Constants.COMPANY_FIELD_XPATH)));
         select.selectByVisibleText(computer.getCompany());
     }
 
@@ -121,18 +123,18 @@ public class TestSteps {
 
     @When("User enters filter criteria {string}")
     public void userEntersFilterCriteria(String filter) {
-        driver.findElement(By.id("searchbox")).sendKeys(filter);
+        driver.findElement(By.id(Constants.SEARCH_FIELD_ID)).sendKeys(filter);
     }
 
     @When("User clicks the {string} entry")
     public void userClicksFeatureEntry(String featureName) {
-        driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[1]")).click();
+        driver.findElement(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).click();
     }
 
     @Then("Application shows current entries.")
     public void applicationShowsCurrentEntries() {
         String expectedMessage = " computers found";
-        String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
+        String actualMessage = driver.findElement(By.xpath(Constants.PAGE_HEADER_XPATH)).getText();
         assertThat(actualMessage, endsWith(expectedMessage));
     }
 
@@ -143,34 +145,32 @@ public class TestSteps {
 
     @Then("Message will appear {string}.")
     public void deletedMessageWillAppear(String message) {
-        assertThat(driver.findElement(By.xpath("/html/body/section/div[1]")).getText(),
+        assertThat(driver.findElement(By.xpath(Constants.MESSAGE_XPATH)).getText(),
                 startsWith(message));
     }
 
     @Then("Results table should show matching computer entry.")
     public void resultsTableShouldShowMatchingComputerEntry(List<Computer> computers) {
         Computer computer = computers.get(0);
-        String expectedMessage = "No computers found";
-        String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
-        assertNotEquals(actualMessage, expectedMessage);
+        assertNotEquals(driver.findElement(By.xpath(Constants.PAGE_HEADER_XPATH)).getText(),
+                "No computers found");
         assertEquals(computer.getComputerName(),
-                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[1]/a")).getText());
+                driver.findElement(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).getText());
         assertEquals(computer.getIntroduced(),
-                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[2]")).getText());
+                driver.findElement(By.xpath(Constants.INTRODUCED_RESULT_XPATH)).getText());
         assertEquals(computer.getDiscontinuedDate(),
-                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[3]")).getText());
+                driver.findElement(By.xpath(Constants.DISCONTINUED_RESULT_XPATH)).getText());
         assertEquals(computer.getCompany(),
-                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[4]")).getText());
+                driver.findElement(By.xpath(Constants.COMPANY_SELECT_RESULT_XPATH)).getText());
     }
 
     @Then("User will see elements marked for invalid data.")
     public void userWillSeeInvalidDataErrors() {
-
-        assertEquals("clearfix error",
-                driver.findElement(By.xpath("/html/body/section/form/fieldset/div[1]")).getAttribute("class"));
-        assertEquals("clearfix error",
-                driver.findElement(By.xpath("/html/body/section/form/fieldset/div[2]")).getAttribute("class"));
-        assertEquals("clearfix error",
-                driver.findElement(By.xpath("/html/body/section/form/fieldset/div[3]")).getAttribute("class"));
+        assertEquals(Constants.CLEARFIX_ERROR,
+                driver.findElement(By.xpath(Constants.COMPUTER_NAME_FIELD_XPATH)).getAttribute(Constants.CLASS_ATTR));
+        assertEquals(Constants.CLEARFIX_ERROR,
+                driver.findElement(By.xpath(Constants.INTRODUCED_FIELD_XPATH)).getAttribute(Constants.CLASS_ATTR));
+        assertEquals(Constants.CLEARFIX_ERROR,
+                driver.findElement(By.xpath(Constants.DISCONTINUED_FIELD_XPATH)).getAttribute(Constants.CLASS_ATTR));
     }
 }
