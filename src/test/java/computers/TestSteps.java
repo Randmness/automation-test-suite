@@ -1,5 +1,6 @@
 package computers;
 
+import computers.support.Button;
 import computers.support.Computer;
 import computers.support.Constants;
 import io.cucumber.java.After;
@@ -70,7 +71,7 @@ public class TestSteps {
         for (Computer computer: computers) {
             navigateToPage(Constants.NEW_COMPUTER_URL);
             computerEntryFieldsAreEntered(computer);
-            userClicksButton("Save this computer");
+            driver.findElement(Button.SAVE_THIS_COMPUTER.getMatch()).click();
         }
     }
 
@@ -98,27 +99,8 @@ public class TestSteps {
     }
 
     @When("User clicks the {string} button")
-    public void userClicksButton(String button) {
-        switch (button) {
-            case "Add a new computer":
-                driver.findElement(By.id("add")).click();
-                break;
-            case "Delete this computer":
-                driver.findElement(By.xpath("/html/body/section/form/input")).click();
-                break;
-            case "Cancel":
-                driver.findElement(By.xpath("/html/body/section/form/div/a")).click();
-                break;
-            case "Filter by name":
-                driver.findElement(By.id("searchsubmit")).click();
-                break;
-            case "Save this computer":
-            case "Create this computer":
-                driver.findElement(By.xpath("/html/body/section/form/div/input[@type='submit']")).click();
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported button: "+ button);
-        }
+    public void userClicksButton(String buttonLabel) {
+        driver.findElement(Button.retrieveButtonByLabel(buttonLabel).getMatch()).click();
     }
 
     @When("User enters filter criteria {string}")

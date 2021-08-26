@@ -10,6 +10,13 @@ public final class Constants {
     //Class values
     public static final String CLEARFIX_ERROR = "clearfix error";
 
+    //Buttons
+    public static final String ADD_NEW_COMPUTER_ID = "add";
+    public static final String DELETE_COMPUTER_XPATH = "/html/body/section/form/input";
+    public static final String CANCEL_XPATH = "/html/body/section/form/div/a";
+    public static final String FILTER_BY_NAME_ID = "searchsubmit";
+    public static final String SAVE_CREATE_COMPUTER_XPATH = "/html/body/section/form/div/input[@type='submit']";
+
     //Field entry
     public static final String COMPUTER_NAME_FIELD_ID="name";
     public static final String INTRODUCED_NAME_FIELD_ID="introduced";
