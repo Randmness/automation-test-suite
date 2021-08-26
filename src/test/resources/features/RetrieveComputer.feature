@@ -1,4 +1,4 @@
-@read
+@smoke
 Feature: Initial navigation to the home/initial page.
 
   Scenario: Retrieve all entries from database
@@ -6,6 +6,7 @@ Feature: Initial navigation to the home/initial page.
     Then Application shows current entries.
 
   Scenario: Retrieve a previously entered entry
+    #TODO Add logic to generate unique company name and delete accordingly
     Given Navigate to Computers database
     And Computer entry already exists
       | computerName  | introduced  | discontinued  | company |

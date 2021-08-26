@@ -7,7 +7,7 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"computers"},
-        tags = "@read",
+        tags = "@smoke",
         plugin = {
                 "pretty",
                 "json:build/cucumber-report/cucumber.json",

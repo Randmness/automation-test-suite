@@ -1,17 +1,14 @@
 package computers;
 
 import computers.support.Computer;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
@@ -22,7 +19,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -97,9 +95,19 @@ public class TestSteps {
         driver.findElement(By.xpath("/html/body/section/form/div/input")).click();
     }
 
+    @When("User clicks the Delete this Computer button")
+    public void userClicksDeleteThisComputerButton() {
+        driver.findElement(By.xpath("/html/body/section/form/input")).click();
+    }
+
     @When("User enters filter criteria {string}")
     public void userEntersFilterCriteria(String filter) {
         driver.findElement(By.id("searchbox")).sendKeys(filter);
+    }
+
+    @When("User clicks the {string} entry")
+    public void userClicksFeatureEntry(String featureName) {
+        driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[1]")).click();
     }
 
     @When("User clicks Filer By Name button")
@@ -113,6 +121,17 @@ public class TestSteps {
         String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
 
         assertThat(actualMessage, endsWith(expectedMessage));
+    }
+
+    @Then("User will be taken to the root page")
+    public void applicationShowsRootPage() {
+        assertThat(driver.getCurrentUrl(), endsWith("/computers"));
+    }
+
+    @Then("Deleted message will appear.")
+    public void deletedMessageWillAppear() {
+        assertThat(driver.findElement(By.xpath("/html/body/section/div[1]")).getText(),
+                startsWith("Done!"));
     }
 
     @Then("Results table should show matching computer entry.")
