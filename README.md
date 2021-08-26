@@ -31,6 +31,9 @@ Location of test report:
 
     PROJECT_DIR/build/reports/tests/test/index.html
 
+Sample:
+![Report](./docs/report.png)
+
 ### Test Cases
 Manual testcases can be found under the [docs](docs) section. 
 
