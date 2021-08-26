@@ -19,11 +19,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
 
-test.dependsOn clean {
-
-}
-
-clean {
+test {
     delete "${rootDir}/build"
     println "Deleted ${rootDir}/build"
 }
