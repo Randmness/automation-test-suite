@@ -9,6 +9,7 @@ import io.cucumber.junit.CucumberOptions;
         glue = {"computers"},
         tags = "@smoke",
         plugin = {
+                "computers.support.TestEventHandlerPlugin",
                 "pretty",
                 "json:build/cucumber-report/cucumber.json",
                 "html:build/cucumber-report/cucumber.html",

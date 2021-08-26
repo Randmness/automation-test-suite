@@ -1,8 +1,11 @@
 package computers.support;
 
 public final class Constants {
+    public static final int TIMEOUT_SECONDS = 2;
+
     //Urls
     public static final String NEW_COMPUTER_URL = "http://computer-database.herokuapp.com/computers/new";
+    public static final String TEST_COMPUTER_FILER = "http://computer-database.herokuapp.com/computers?f=TEST-Feature";
 
     //Element attributes
     public static final String CLASS_ATTR = "class";

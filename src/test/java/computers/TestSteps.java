@@ -34,19 +34,16 @@ public class TestSteps {
     public void setUp() {
         System.setProperty("webdriver.chrome.driver",
                 Paths.get("src/test/resources/drivers/mac/chromedriver").toString());
-
         if (driver == null) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             driver = new ChromeDriver(options);
         }
-
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Constants.TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
 
     @After
     public void tearDown(Scenario scenario) {
-        //TODO attempt cleanup of entries
         if (driver!=null) {
             driver.close();
             driver.quit();
