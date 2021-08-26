@@ -28,7 +28,6 @@ test {
 }
 
 task('report') {
-    // consider this task "UP TO DATE" if `test` task did not execute
     outputs.upToDateWhen {
         !test.didWork
     }
