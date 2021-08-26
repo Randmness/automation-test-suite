@@ -43,12 +43,12 @@ public class TestSteps {
     }
 
     @Given("Navigate to Computers database")
-    public void navigateToPageForgotPassword() {
+    public void navigateToComputersDatabase() {
         driver.navigate().to("http://computer-database.herokuapp.com/computers");
     }
 
     @Then("Application shows current entries.")
-    public void applicationDisplaysTheMessageOutputCode() {
+    public void applicationShowsCurrentEntries() {
         String expectedMessage = " computers found";
         String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
 
