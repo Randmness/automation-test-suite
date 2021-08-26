@@ -5,7 +5,7 @@ public final class Constants {
 
     //Urls
     public static final String NEW_COMPUTER_URL = "http://computer-database.herokuapp.com/computers/new";
-    public static final String TEST_COMPUTER_FILER = "http://computer-database.herokuapp.com/computers?f=TEST-Feature";
+    public static final String TEST_COMPUTER_FILTER = "http://computer-database.herokuapp.com/computers?f=TEST-Feature";
 
     //Element attributes
     public static final String CLASS_ATTR = "class";

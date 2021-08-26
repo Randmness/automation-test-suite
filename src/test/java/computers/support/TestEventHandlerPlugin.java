@@ -28,12 +28,12 @@ public class TestEventHandlerPlugin implements ConcurrentEventListener {
         try {
             driver = DriverUtil.initializeDriver();
 
-            driver.navigate().to(Constants.TEST_COMPUTER_FILER);
+            driver.navigate().to(Constants.TEST_COMPUTER_FILTER);
             boolean isPresent = driver.findElements(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).size() > 0;
             while (isPresent) {
                 driver.findElement(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).click();
                 driver.findElement(Button.DELETE_COMPUTER.getMatch()).click();
-                driver.navigate().to(Constants.TEST_COMPUTER_FILER);
+                driver.navigate().to(Constants.TEST_COMPUTER_FILTER);
                 isPresent = driver.findElements(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).size() > 0;
             }
 

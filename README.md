@@ -11,7 +11,7 @@ test/scenario, but it's runtime as well.
 - Gradle 7
 - Java 11+
 - Chrome 91+
-- OSX
+- OSX 
 
 ### Execution 
 To run the automation test suite, execute the following command from the project's root directory: 
