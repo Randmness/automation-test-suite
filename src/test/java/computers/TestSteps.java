@@ -3,6 +3,7 @@ package computers;
 import computers.support.Button;
 import computers.support.Computer;
 import computers.support.Constants;
+import computers.support.DriverUtil;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
@@ -12,14 +13,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;
@@ -32,22 +29,14 @@ public class TestSteps {
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver",
-                Paths.get("src/test/resources/drivers/mac/chromedriver").toString());
         if (driver == null) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            driver = new ChromeDriver(options);
+            driver = DriverUtil.initializeDriver();
         }
-        driver.manage().timeouts().implicitlyWait(Constants.TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
 
     @After
     public void tearDown(Scenario scenario) {
-        if (driver!=null) {
-            driver.close();
-            driver.quit();
-        }
+        DriverUtil.closeDriver(driver);
     }
 
     @DataTableType(replaceWithEmptyString = "[blank]")

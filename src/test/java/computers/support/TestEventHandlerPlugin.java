@@ -6,11 +6,8 @@ import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.logging.Logger;
-
 
 public class TestEventHandlerPlugin implements ConcurrentEventListener {
     private static final String COMPANY_NAME_PREFIX = "TEST-Feature-";
@@ -21,14 +18,15 @@ public class TestEventHandlerPlugin implements ConcurrentEventListener {
         eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
     }
 
+    /**
+     * Event handler that is triggered after the tests run to clean up test data.
+     */
     private EventHandler<TestRunFinished> teardown = event -> {
         LOG.info("Attempting to cleanup test entries companies starting with: " + COMPANY_NAME_PREFIX);
         WebDriver driver = null;
 
         try {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            driver = new ChromeDriver(options);
+            driver = DriverUtil.initializeDriver();
 
             driver.navigate().to(Constants.TEST_COMPUTER_FILER);
             boolean isPresent = driver.findElements(By.xpath(Constants.COMPUTER_NAME_RESULT_XPATH)).size() > 0;
@@ -43,10 +41,7 @@ public class TestEventHandlerPlugin implements ConcurrentEventListener {
         } catch (Exception e) {
             LOG.severe("Issue occurred attempting to delete test entries: " + e.getMessage());
         } finally {
-            if (driver!=null) {
-                driver.close();
-                driver.quit();
-            }
+            DriverUtil.closeDriver(driver);
         }
     };
 }

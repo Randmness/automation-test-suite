@@ -1,3 +1,5 @@
+import java.nio.file.Paths
+
 plugins {
     id 'java'
 }
@@ -19,6 +21,8 @@ dependencies {
 }
 
 test {
+    systemProperty 'webdriver.chrome.driver', Paths.get("src/test/resources/drivers/mac/chromedriver").toString();
+    systemProperty 'headless', System.getProperty('headless')
     delete "${rootDir}/build"
     println "Deleted ${rootDir}/build"
 }
