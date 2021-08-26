@@ -1,4 +1,5 @@
 ### Description
+This application [Computer Database](http://computer-database.herokuapp.com/computers) application. 
 
 ### System Requirements
 - Gradle 7
@@ -19,14 +20,15 @@ Upon completion, a report is generated at:
 
     PROJECT_DIR/build/reports/tests/test/index.html
 
+### Test Cases
+The manual testcases can be found under the [docs](docs) section. 
+
 ### Features
 The Cucumber features for the various CRUD test cases: 
-- [`CREATE` CreateComputer.feature](src/main/resources/CreateComputer.feature)
-- [`READ` RetrieveComputer.feature](src/main/resources/RetrieveComputer.feature)
-- [`UPDATE` UpdateComputer.feature](src/main/resources/UpdateComputer.feature)
-- [`DELETE` DeleteComputer.feature](src/main/resources/DeleteComputer.feature)
-
-
+- [`CREATE` CreateComputer.feature](src/test/resources/CreateComputer.feature)
+- [`READ` RetrieveComputer.feature](src/test/resources/RetrieveComputer.feature)
+- [`UPDATE` UpdateComputer.feature](src/test/resources/UpdateComputer.feature)
+- [`DELETE` DeleteComputer.feature](src/test/resources/DeleteComputer.feature)
 
 ### Outstanding Items
 - Adding ability to run features in parallel
