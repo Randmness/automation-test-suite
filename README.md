@@ -16,11 +16,16 @@ test/scenario, but it's runtime as well.
 ### Execution 
 To run the automation test suite, execute the following command from the project's root directory: 
 
-    gradle test -Dheadless=true
+    gradle test -Dheadless=true -DopenReport=true
 
-Changing the **headless** value to **false**, will cause a browser to 
+#### Optional Params:
+- **headless**: Changing the **headless** value to **false**, will cause a browser to 
 open for each of the feature's scenarios. By default, the application does 
 **NOT** run in headless mode.
+  
+  
+- **openReport**: If enabled, the report will automatically be opened on test completion.
+By default, this is false. 
 
 Location of test report:
 

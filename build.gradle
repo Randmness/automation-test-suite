@@ -34,6 +34,9 @@ task('report') {
     doLast {
         def reportLocation = "${rootDir}/build/reports/tests/test/index.html"
         println "Report generated at: ${reportLocation}"
+        if (Boolean.parseBoolean(System.getProperty('openReport'))) {
+            exec { commandLine 'open', "${reportLocation}" }
+        }
     }
 }
 
