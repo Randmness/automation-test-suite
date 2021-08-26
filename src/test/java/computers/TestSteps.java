@@ -58,22 +58,17 @@ public class TestSteps {
                 entry.get("company"));
     }
 
-    @Given("Navigate to Computers database")
-    public void navigateToComputersDatabase() {
-        driver.navigate().to("http://computer-database.herokuapp.com/computers");
-    }
-
-    @Given("Navigate to add a computer")
-    public void navigateToAddComputer() {
-        driver.navigate().to("http://computer-database.herokuapp.com/computers/new");
+    @Given("Navigate to page {string}")
+    public void navigateToPage(String page) {
+        driver.navigate().to(page);
     }
 
     @Given("Computer entry already exists")
-    public void computerEntryAlreadyExists(List<Computer> computers) {
+    public void computerEntryAlreadyExists(List<Computer> computers) throws Exception {
         for (Computer computer: computers) {
-            navigateToAddComputer();
+            navigateToPage("http://computer-database.herokuapp.com/computers/new");
             computerEntryFieldsAreEntered(computer);
-            userClicksCreateThisComputerButton();
+            userClicksButton("Save this computer");
         }
     }
 
@@ -82,27 +77,46 @@ public class TestSteps {
         computerEntryFieldsAreEntered(computers.get(0));
     }
 
-    public void computerEntryFieldsAreEntered(Computer computer) {
-        driver.findElement(By.id("name")).sendKeys(computer.getComputerName());
-        driver.findElement(By.id("introduced")).sendKeys(computer.getIntroduced());
-        driver.findElement(By.id("discontinued")).sendKeys(computer.getDiscontinuedDate());
+    private void computerEntryFieldsAreEntered(Computer computer) {
+        setTextFields("name", computer.getComputerName());
+        setTextFields("introduced", computer.getIntroduced());
+        setTextFields("discontinued", computer.getDiscontinuedDate());
         Select select = new Select(driver.findElement(By.xpath("/html/body/section/form/fieldset/div[4]/div/select")));
         select.selectByVisibleText(computer.getCompany());
     }
 
-    @When("User clicks Create this Computer button")
-    public void userClicksCreateThisComputerButton() {
-        driver.findElement(By.xpath("/html/body/section/form/div/input")).click();
+    private void setTextFields(String id, String value) {
+        driver.findElement(By.id(id)).clear();
+        driver.findElement(By.id(id)).sendKeys(value);
     }
 
     @When("User clicks button with id {string}")
-    public void userClicksButtonWithId(String id) {
+    public void userClicksButtonWithId(String type, String id) {
         driver.findElement(By.id(id)).click();
     }
 
-    @When("User clicks the Delete this Computer button")
-    public void userClicksDeleteThisComputerButton() {
-        driver.findElement(By.xpath("/html/body/section/form/input")).click();
+    @When("User clicks the {string} button")
+    public void userClicksButton(String button) {
+        switch (button) {
+            case "Add a new computer":
+                driver.findElement(By.id("add")).click();
+                break;
+            case "Delete this computer":
+                driver.findElement(By.xpath("/html/body/section/form/input")).click();
+                break;
+            case "Cancel":
+                driver.findElement(By.xpath("/html/body/section/form/div/a")).click();
+                break;
+            case "Filter by name":
+                driver.findElement(By.id("searchsubmit")).click();
+                break;
+            case "Save this computer":
+            case "Create this computer":
+                driver.findElement(By.xpath("/html/body/section/form/div/input[@type='submit']")).click();
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported button: "+ button);
+        }
     }
 
     @When("User enters filter criteria {string}")
@@ -119,7 +133,6 @@ public class TestSteps {
     public void applicationShowsCurrentEntries() {
         String expectedMessage = " computers found";
         String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
-
         assertThat(actualMessage, endsWith(expectedMessage));
     }
 
