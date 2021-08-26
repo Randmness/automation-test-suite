@@ -10,7 +10,7 @@ test/scenario, but it's runtime as well.
 ### System Requirements
 - Gradle 7
 - Java 11+
-- Chrome 
+- Chrome 91+
 - OSX
 
 ### Execution 
