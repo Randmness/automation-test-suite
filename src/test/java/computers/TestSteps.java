@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TestSteps {
     private WebDriver driver;
@@ -71,24 +72,39 @@ public class TestSteps {
 
     @Given("Computer entry already exists")
     public void computerEntryAlreadyExists(List<Computer> computers) {
-        navigateToAddComputer();
-        computerEntryFieldsAreEntered(computers);
+        for (Computer computer: computers) {
+            navigateToAddComputer();
+            computerEntryFieldsAreEntered(computers);
+            userClicksCreateThisComputerButton();
+        }
     }
 
     @When("Computer entry fields are entered")
     public void computerEntryFieldsAreEntered(List<Computer> computers) {
-        Computer computer = computers.get(0);
+        computerEntryFieldsAreEntered(computers.get(0));
+    }
+
+    public void computerEntryFieldsAreEntered(Computer computer) {
         driver.findElement(By.id("name")).sendKeys(computer.getComputerName());
         driver.findElement(By.id("introduced")).sendKeys(computer.getIntroduced());
         driver.findElement(By.id("discontinued")).sendKeys(computer.getDiscontinuedDate());
         Select select = new Select(driver.findElement(By.xpath("/html/body/section/form/fieldset/div[4]/div/select")));
         select.selectByVisibleText(computer.getCompany());
-        userClicksCreateThisComputerButton();
     }
 
     @When("User clicks Create this Computer button")
     public void userClicksCreateThisComputerButton() {
         driver.findElement(By.xpath("/html/body/section/form/div/input")).click();
+    }
+
+    @When("User enters filter criteria {string}")
+    public void userEntersFilterCriteria(String filter) {
+        driver.findElement(By.id("searchbox")).sendKeys(filter);
+    }
+
+    @When("User clicks Filer By Name button")
+    public void userClicksFilterByNameButton() {
+        driver.findElement(By.id("searchsubmit")).click();
     }
 
     @Then("Application shows current entries.")
@@ -97,5 +113,21 @@ public class TestSteps {
         String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
 
         assertThat(actualMessage, endsWith(expectedMessage));
+    }
+
+    @Then("Results table should show matching computer entry.")
+    public void resultsTableShouldShowMatchingComputerEntry(List<Computer> computers) {
+        Computer computer = computers.get(0);
+        String expectedMessage = "No computers found";
+        String actualMessage = driver.findElement(By.xpath("/html/body/section/h1")).getText();
+        assertNotEquals(actualMessage, expectedMessage);
+        assertEquals(computer.getComputerName(),
+                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[1]/a")).getText());
+        assertEquals(computer.getIntroduced(),
+                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[2]")).getText());
+        assertEquals(computer.getDiscontinuedDate(),
+                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[3]")).getText());
+        assertEquals(computer.getCompany(),
+                driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[4]")).getText());
     }
 }
