@@ -84,8 +84,8 @@ public class TestSteps {
         setTextFields(Constants.COMPUTER_NAME_FIELD_ID, computer.getComputerName());
         setTextFields(Constants.INTRODUCED_NAME_FIELD_ID, computer.getIntroduced());
         setTextFields(Constants.DISCONTINUED_NAME_FIELD_ID, computer.getDiscontinuedDate());
-        Select select = new Select(driver.findElement(By.xpath(Constants.COMPANY_FIELD_XPATH)));
-        select.selectByVisibleText(computer.getCompany());
+        new Select(driver.findElement(By.xpath(Constants.COMPANY_FIELD_XPATH)))
+            .selectByVisibleText(computer.getCompany());
     }
 
     private void setTextFields(String id, String value) {
@@ -115,9 +115,8 @@ public class TestSteps {
 
     @Then("Application shows current entries.")
     public void applicationShowsCurrentEntries() {
-        String expectedMessage = " computers found";
-        String actualMessage = driver.findElement(By.xpath(Constants.PAGE_HEADER_XPATH)).getText();
-        assertThat(actualMessage, endsWith(expectedMessage));
+        assertThat(driver.findElement(By.xpath(Constants.PAGE_HEADER_XPATH)).getText(),
+                endsWith(" computers found"));
     }
 
     @Then("User will be taken to the root page")

@@ -10,16 +10,29 @@ repositories {
 }
 
 dependencies {
-    compile 'org.seleniumhq.selenium:selenium-java:3.141.59'
-    compile 'io.cucumber:cucumber-java:6.11.0'
-    testCompile 'io.cucumber:cucumber-junit:6.11.0'
-    testCompile 'org.hamcrest:hamcrest:2.2'
-
-    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    testImplementation 'io.cucumber:cucumber-java:6.11.0'
+    testImplementation 'io.cucumber:cucumber-junit:6.11.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
 }
 
 test {
     delete "${rootDir}/build"
     println "Deleted ${rootDir}/build"
 }
+
+task('report') {
+    // consider this task "UP TO DATE" if `test` task did not execute
+    outputs.upToDateWhen {
+        !test.didWork
+    }
+    doLast {
+        def reportLocation = "${rootDir}/build/reports/tests/test/index.html"
+        println "Report generated at: ${reportLocation}"
+        //exec { commandLine 'open', "${reportLocation}" }
+    }
+}
+
+test.finalizedBy report
