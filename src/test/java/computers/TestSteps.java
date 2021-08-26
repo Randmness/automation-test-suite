@@ -49,7 +49,7 @@ public class TestSteps {
         }
     }
 
-    @DataTableType
+    @DataTableType(replaceWithEmptyString = "[blank]")
     public Computer authorEntry(Map<String, String> entry) {
         return new Computer(
                 entry.get("computerName"),
@@ -72,7 +72,7 @@ public class TestSteps {
     public void computerEntryAlreadyExists(List<Computer> computers) {
         for (Computer computer: computers) {
             navigateToAddComputer();
-            computerEntryFieldsAreEntered(computers);
+            computerEntryFieldsAreEntered(computer);
             userClicksCreateThisComputerButton();
         }
     }
@@ -95,6 +95,11 @@ public class TestSteps {
         driver.findElement(By.xpath("/html/body/section/form/div/input")).click();
     }
 
+    @When("User clicks button with id {string}")
+    public void userClicksButtonWithId(String id) {
+        driver.findElement(By.id(id)).click();
+    }
+
     @When("User clicks the Delete this Computer button")
     public void userClicksDeleteThisComputerButton() {
         driver.findElement(By.xpath("/html/body/section/form/input")).click();
@@ -110,11 +115,6 @@ public class TestSteps {
         driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[1]")).click();
     }
 
-    @When("User clicks Filer By Name button")
-    public void userClicksFilterByNameButton() {
-        driver.findElement(By.id("searchsubmit")).click();
-    }
-
     @Then("Application shows current entries.")
     public void applicationShowsCurrentEntries() {
         String expectedMessage = " computers found";
@@ -128,10 +128,10 @@ public class TestSteps {
         assertThat(driver.getCurrentUrl(), endsWith("/computers"));
     }
 
-    @Then("Deleted message will appear.")
-    public void deletedMessageWillAppear() {
+    @Then("Message will appear {string}.")
+    public void deletedMessageWillAppear(String message) {
         assertThat(driver.findElement(By.xpath("/html/body/section/div[1]")).getText(),
-                startsWith("Done!"));
+                startsWith(message));
     }
 
     @Then("Results table should show matching computer entry.")
@@ -148,5 +148,16 @@ public class TestSteps {
                 driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[3]")).getText());
         assertEquals(computer.getCompany(),
                 driver.findElement(By.xpath("/html/body/section/table/tbody/tr/td[4]")).getText());
+    }
+
+    @Then("User will see elements marked for invalid data.")
+    public void userWillSeeInvalidDataErrors() {
+
+        assertEquals("clearfix error",
+                driver.findElement(By.xpath("/html/body/section/form/fieldset/div[1]")).getAttribute("class"));
+        assertEquals("clearfix error",
+                driver.findElement(By.xpath("/html/body/section/form/fieldset/div[2]")).getAttribute("class"));
+        assertEquals("clearfix error",
+                driver.findElement(By.xpath("/html/body/section/form/fieldset/div[3]")).getAttribute("class"));
     }
 }
