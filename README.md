@@ -1,11 +1,17 @@
 ### Description
-This application [Computer Database](http://computer-database.herokuapp.com/computers) application. 
+This application leverages Java, Cucumber, and Selenium 
+to interact with the [Computer Database](http://computer-database.herokuapp.com/computers) website.
+The Cucumber feature files (written in Gherkin) run through different scenarios related to 
+creating, reading, updating, and deleting computers within the database via a headless Chrome browser. 
+
+Upon completion, a report is generated that captures not only the outcome of each
+test/scenario, but it's runtime as well. 
 
 ### System Requirements
 - Gradle 7
 - Java 11+
-- Chrome
-- OSX 
+- Chrome 
+- OSX
 
 ### Execution 
 To run the automation test suite, execute the following command from the project's root directory: 
@@ -16,7 +22,7 @@ Changing the **headless** value to **false**, will cause a browser to
 open for each of the feature's scenarios. By default, the application does 
 **NOT** run in headless mode.
 
-Upon completion, a report is generated at:
+Location of test report:
 
     PROJECT_DIR/build/reports/tests/test/index.html
 
