@@ -31,10 +31,12 @@ Manual testcases can be found under the [docs](docs) section.
 
 ### Features
 The Cucumber feature files for the various CRUD test cases: 
-- [`CREATE` CreateComputer.feature](src/test/resources/CreateComputer.feature)
-- [`READ` RetrieveComputer.feature](src/test/resources/RetrieveComputer.feature)
-- [`UPDATE` UpdateComputer.feature](src/test/resources/UpdateComputer.feature)
-- [`DELETE` DeleteComputer.feature](src/test/resources/DeleteComputer.feature)
+- [`CREATE` CreateComputer.feature](src/test/resources/features/CreateComputer.feature)
+- [`READ` RetrieveComputer.feature](src/test/resources/features/RetrieveComputer.feature)
+- [`UPDATE` UpdateComputer.feature](src/test/resources/features/UpdateComputer.feature)
+- [`DELETE` DeleteComputer.feature](src/test/resources/features/DeleteComputer.feature)
+
+Step Definitions can be found [here](src/test/java/computers/TestSteps.java). 
 
 ### Outstanding Items
 - Adding ability to run features in parallel
